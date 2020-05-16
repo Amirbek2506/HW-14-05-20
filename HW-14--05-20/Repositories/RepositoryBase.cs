@@ -30,5 +30,23 @@ namespace HW_14__05_20.Repositories
                 return null;
             }
         }
+        public void DeleteById()
+        {
+            Console.WriteLine("Введите ID человека каторый вы хотели удалить его данны!!!");
+            Console.Write("ID: "); int ID = int.Parse(Console.ReadLine());
+            try
+            {
+                using (IDbConnection db = new SqlConnection(ConnString))
+                {
+                    var command = $"DELETE FROM {typeof(T).Name?.ToUpper()} WHERE Id ={ID}";
+                    db.Execute(command, new { ID });
+                    Console.WriteLine("Успешно удален!");
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
     }
 }

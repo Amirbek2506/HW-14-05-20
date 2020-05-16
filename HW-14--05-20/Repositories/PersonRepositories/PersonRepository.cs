@@ -31,13 +31,12 @@ namespace HW_14__05_20.Repositories.PersonRepositories
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-
         }
         public void Read()
         {
            foreach(var item in SelectAll())
             {
-                Console.WriteLine($"Id {item.Id} | LastName {item.LastName} | FirstName {item.FirstName} | BirthYear {item.BirthYear}");
+                Console.WriteLine($"Id: {item.Id} |  LastName: {item.LastName} |  FirstName: {item.FirstName} |  BirthYear: {item.BirthYear}");
             }
         }
         public void Update()
@@ -54,7 +53,7 @@ namespace HW_14__05_20.Repositories.PersonRepositories
             {
                 using (IDbConnection db = new SqlConnection(ConnString))
                 {
-                    var command = $"UPDATE Person SET LastName = {person.LastName}, FirstName = {person.FirstName},BirthYear ={person.BirthYear} WHERE Id = {ID}";
+                    var command = $"UPDATE Person SET LastName = '{person.LastName}', FirstName = '{person.FirstName}',BirthYear ={person.BirthYear} WHERE Id = {ID}";
                     db.Execute(command, person);
                     Console.WriteLine("Успешно изменено!");
                 }
@@ -67,21 +66,7 @@ namespace HW_14__05_20.Repositories.PersonRepositories
         public void Delete()
         {
             Read();
-            Console.WriteLine("Введите ID человека каторый вы хотели удалить его данны!!!");
-            Console.Write("ID: ");int ID =int.Parse(Console.ReadLine());
-            try
-            {
-                using (IDbConnection db = new SqlConnection(ConnString))
-                {
-                    var command = $"DELETE FROM Person WHERE Id ={ID}";
-                    db.Execute(command, new { ID});
-                    Console.WriteLine("Успешно удален!");
-                }
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
+            DeleteById();
         }
     }
 }
